@@ -1,0 +1,122 @@
+{
+  "skill_name": "safe-ralph-loop",
+  "evals": [
+    {
+      "id": 1,
+      "name": "basic-invocation",
+      "prompt": "/safe-ralph-loop \"修复登录页的用户名输入框在手机端被键盘遮挡的bug\"",
+      "expected_output": "执行完整安全保护流程：①环境检测 → ②容器决策 → ③预检确认 → ④执行保护 → ⑤清理恢复",
+      "files": [],
+      "assertions": [
+        {
+          "name": "triggers-environment-detection",
+          "description": "技能应执行环境检测步骤，检测 Git/Docker/sbx 状态",
+          "type": "contains",
+          "value": "环境检测"
+        },
+        {
+          "name": "checks-docker-status",
+          "description": "技能应检测 Docker Daemon 运行状态",
+          "type": "regex",
+          "value": "(Docker|docker|daemon)"
+        },
+        {
+          "name": "checks-git-status",
+          "description": "技能应检测 Git 仓库状态",
+          "type": "regex",
+          "value": "(Git|git|分支|branch)"
+        },
+        {
+          "name": "shows-parameter-summary",
+          "description": "技能应展示参数摘要并要求用户确认",
+          "type": "contains",
+          "value": "确认"
+        },
+        {
+          "name": "asks-user-confirmation",
+          "description": "技能应在启动前要求用户确认（y/N）",
+          "type": "regex",
+          "value": "y[/\\\\]N|确认|同意"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "full-parameters",
+      "prompt": "/safe-ralph-loop \"将 Python 脚本转成 Rust 实现\" --max-iterations 15 --completion-promise \"ALL_TESTS_PASSING\"",
+      "expected_output": "解析完整参数后执行保护流程",
+      "files": [],
+      "assertions": [
+        {
+          "name": "parses-max-iterations",
+          "description": "技能应正确识别用户指定的 max-iterations",
+          "type": "contains",
+          "value": "15"
+        },
+        {
+          "name": "respects-completion-promise",
+          "description": "技能应识别并显示 completion-promise 参数",
+          "type": "contains",
+          "value": "ALL_TESTS_PASSING"
+        },
+        {
+          "name": "shows-protection-level",
+          "description": "技能应展示保护等级",
+          "type": "regex",
+          "value": "保护(方案|等级|方案)"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "sbx-preference",
+      "prompt": "我想跑一个ralph loop改代码，帮我保护一下，我看到sbx可以用了",
+      "expected_output": "技能应触发并优先推荐 sbx 沙箱方案",
+      "files": [],
+      "assertions": [
+        {
+          "name": "recommends-sbx-first",
+          "description": "技能应优先推荐 sbx 沙箱隔离方案",
+          "type": "contains",
+          "value": "sbx"
+        },
+        {
+          "name": "detects-natural-language",
+          "description": "技能应从自然语言中理解用户的 ralph-loop 需求",
+          "type": "regex",
+          "value": "(ralph.loop|安全|保护)"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "no-protection-available",
+      "prompt": "/safe-ralph-loop \"重构这个模块\"",
+      "expected_output": "当无保护可用时应警告用户并建议中止",
+      "files": [],
+      "assertions": [
+        {
+          "name": "shows-warning",
+          "description": "无保护时应显示警告信息",
+          "type": "contains",
+          "value": "警告"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "recovery-command",
+      "prompt": "/ralph-recover 上次 safe-ralph-loop 中断了，帮我清理残留",
+      "expected_output": "提供残留清理指引",
+      "files": [],
+      "assertions": [
+        {
+          "name": "provides-cleanup-guidance",
+          "description": "应提供手动清理指引",
+          "type": "regex",
+          "value": "(清理|恢复|cleanup|recover)"
+        }
+      ]
+    }
+  ]
+}
