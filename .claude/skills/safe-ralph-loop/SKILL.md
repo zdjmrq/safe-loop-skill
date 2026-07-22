@@ -135,7 +135,7 @@ git checkout -b "${BRANCH_NAME}"
 
 #### cron 模式：构造定时 prompt
 
-CronCreate 的 prompt 必须包含以下结构：
+CronCreate 的 prompt 必须包含以下结构（**<cron_job_id> 不能直接写**，因为 CronCreate 还没调用，ID 不存在。模型拿到 prompt 后通过 CronList() 查找）：
 
 ```
 <用户原始任务描述>
@@ -144,23 +144,23 @@ CronCreate 的 prompt 必须包含以下结构：
 
 1. 检查目标状态（CI 结果、部署状态等）
 2. 判断完成条件是否满足：
-   - ✅ 完成条件: <具体可验证的条件>
-   - 如果满足 → CronDelete("<cron_job_id>") → 报告完成 → 结束
-   - 如果不满足 → 执行必要的修复操作 → 等待下一轮
-3. 如果已达成最大迭代次数仍未完成 → 报告情况 → CronDelete("<cron_job_id>")
+   ✅ 完成条件: <具体可验证的条件>
+   如果满足 → CronList() 找到本 loop 的活跃任务 → CronDelete(对应的 id) → 报告完成
+   如果不满足 → 执行必要的修复操作 → 等待下一轮 cron 触发
+3. 如果多次检查仍未完成 → 报告当前状况，继续等待
 ```
 
-然后：
+然后调用：
 
 ```
 CronCreate(
-  cron: "<根据 --check-interval 计算>",
+  cron: "<根据 --check-interval 计算，避开 :00 和 :30>",
   prompt: "<上面构造的完整 prompt>",
   recurring: true
 )
 ```
 
-记录返回的 cron_job_id。**立即执行一次首次检查**。
+记录返回的 job_id。然后**立即在当前 turn 执行一次 cron prompt 中的任务**（首次检查不等到下一个 cron 触发）。
 
 #### ralph 模式：直接调 ralph-loop
 
