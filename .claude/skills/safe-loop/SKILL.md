@@ -36,9 +36,9 @@ user_invocable: true
 
 示例：
 ```
-/safe-loop "检查 CI 编译结果，有错就修直到全绿"
-/safe-loop "重构缓存层" --loop-type ralph --completion-promise "ALL TESTS PASSING"
-/safe-loop "每 2 小时检查部署是否成功" --check-interval 2h
+/safe-loop "等部署完成后通知我"
+/safe-loop "重构某个模块" --loop-type ralph --completion-promise "DONE"
+/safe-loop "每 2 小时检查一次服务状态" --check-interval 2h
 ```
 
 ---
