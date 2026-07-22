@@ -69,9 +69,9 @@ Loop 开始前创建一次，隔离 AI 的所有改动。loop 结束后合并或
 ```bash
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-BRANCH_NAME="safe-ralph-${TIMESTAMP}-${CURRENT_BRANCH}"
+BRANCH_NAME="safe-loop-${TIMESTAMP}-${CURRENT_BRANCH}"
 
-git stash push -m "safe-ralph-auto-stash-${TIMESTAMP}" --include-untracked 2>/dev/null || true
+git stash push -m "safe-loop-auto-stash-${TIMESTAMP}" --include-untracked 2>/dev/null || true
 git checkout -b "${BRANCH_NAME}"
 ```
 
@@ -118,7 +118,7 @@ git checkout -b "${BRANCH_NAME}"
 向用户展示，**必须确认后才执行**：
 
 ```
-🛡️ Safe Ralph Loop — 确认摘要
+🛡️ Safe Loop — 确认摘要
 
   📂 项目: <路径>
   📋 任务: <任务描述>
