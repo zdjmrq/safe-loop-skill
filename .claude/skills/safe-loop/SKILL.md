@@ -1,7 +1,7 @@
 ---
-name: safe-ralph-loop
+name: safe-loop
 description: >
-  Safe Ralph Loop — 安全的 Loop 生命周期管理器。当你需要反复执行某个任务直到完成时，
+  Safe Loop — 安全的 Loop 生命周期管理器。当你需要反复执行某个任务直到完成时，
   必须调用此 skill：CI 自动修复、部署状态轮询、bug 修复直到测试全绿、迭代重构、
   任何需要定时检查或循环执行的自动化任务。自动检测环境、创建 git 保护分支、
   根据任务特征选择 /loop（cron 轮询）或 /ralph-loop（迭代开发）、
@@ -10,9 +10,11 @@ description: >
 user_invocable: true
 ---
 
-# Safe Ralph Loop v2
+# Safe Loop
 
 安全的 loop 生命周期管理器。核心职责：**保护 → 选择 → 启动 → 注入完成逻辑 → 自动结束**。
+
+调用方式：`/safe-loop <任务描述> [选项]`
 
 ```
 ① 环境检测 → ② Git 保护分支 → ③ Loop 选择 → ④ 确认 → ⑤ 注入完成逻辑并启动 → ⑥ 结束清理
@@ -21,7 +23,7 @@ user_invocable: true
 ## 使用方式
 
 ```
-/safe-ralph-loop <任务描述> [--loop-type cron|ralph] [--check-interval 5m] [--max-iterations N] [--completion-promise "TEXT"]
+/safe-loop <任务描述> [--loop-type cron|ralph] [--check-interval 5m] [--max-iterations N] [--completion-promise "TEXT"]
 ```
 
 | 参数 | 默认 | 说明 |
@@ -34,9 +36,9 @@ user_invocable: true
 
 示例：
 ```
-/safe-ralph-loop "检查 CI 编译结果，有错就修直到全绿"
-/safe-ralph-loop "重构缓存层" --loop-type ralph --completion-promise "ALL TESTS PASSING"
-/safe-ralph-loop "每 2 小时检查部署是否成功" --check-interval 2h
+/safe-loop "检查 CI 编译结果，有错就修直到全绿"
+/safe-loop "重构缓存层" --loop-type ralph --completion-promise "ALL TESTS PASSING"
+/safe-loop "每 2 小时检查部署是否成功" --check-interval 2h
 ```
 
 ---
